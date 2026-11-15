@@ -20,7 +20,7 @@ const config: Configuration = {
     cssChunkFilename: `${SEPERATE_FOLDERS ? 'css/' : ''}[name].[chunkhash].css`,
     hashDigestLength: 7,
     // Required by SubresourceIntegrityPlugin for lazy-loaded chunks.
-    crossOriginLoading: 'anonymous',
+    crossOriginLoading: false,
     clean: true
   },
   module: {
@@ -131,10 +131,6 @@ const config: Configuration = {
   },
 
   plugins: [
-    // Adds `integrity` hashes to <script>/<link> tags and lazy chunk loads.
-    new rspack.SubresourceIntegrityPlugin({
-      hashFuncNames: ['sha384']
-    }),
     new rspack.DefinePlugin({
       __DEV__: JSON.stringify(false),
       __PROD__: JSON.stringify(true),

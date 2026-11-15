@@ -1,0 +1,50 @@
+import { lazy, version } from 'react';
+import style from '@/App.module.scss';
+import rspack from '@/assets/rspack.svg';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import withSuspense from '@/HOC/withSuspense';
+
+const Counter = withSuspense(
+  lazy(() => import(/* rspackChunkName: "counter" */ './components/Counter')),
+  <div className={style.loader}>Loading Counter....</div>
+);
+
+const App = () => {
+  return (
+    <div className={style.container}>
+      <div>
+        React <u>{process.env.APP_NAME}</u>
+      </div>
+      <div>
+        App Name: <code>{window?.__env?.NAME}</code>
+      </div>
+      <div>
+        Node Env: <code>{process.env.NODE_ENV}</code>
+      </div>
+      <div>
+        App Version: <code>{__VERSION__}</code> | React Version: <code>{version}</code>
+      </div>
+      <div>
+        Build Created At: <code>{__BUILD_DATE__}</code>
+      </div>
+      <div>
+        Is Dev: <code>{__DEV__ ? 'True' : 'False'}</code>
+      </div>
+      <div>
+        Is Prod: <code>{__PROD__ ? 'True' : 'False'}</code>
+      </div>
+      <div>
+        Public Path: <code>{__webpack_public_path__}</code>
+      </div>
+      <div className={style.logoContainer}>
+        <img loading="lazy" src="./react.svg" alt="React Logo" className={style.react} />
+        <img loading="lazy" src={rspack} alt="Rspack Logo" className={style.logo} />
+      </div>
+      <ErrorBoundary>
+        <Counter />
+      </ErrorBoundary>
+    </div>
+  );
+};
+
+export default App;

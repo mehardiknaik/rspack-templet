@@ -1,0 +1,111 @@
+#!/bin/bash
+# clean.sh - Reset project to a clean state with only a minimal App.tsx
+# Removes: src/components/, src/HOC/, src/console.ts
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+SRC_DIR="$PROJECT_DIR/src"
+
+echo "🧹 Cleaning project..."
+echo ""
+
+# --- Remove directories ---
+DIRS_TO_REMOVE=("components" "HOC" "assets")
+
+for dir in "${DIRS_TO_REMOVE[@]}"; do
+  if [ -d "$SRC_DIR/$dir" ]; then
+    rm -rf "$SRC_DIR/$dir"
+    echo "  ✅ Removed src/$dir/"
+  else
+    echo "  ⏭️  src/$dir/ not found, skipping"
+  fi
+done
+
+# --- Remove files ---
+FILES_TO_REMOVE=("console.ts")
+
+for file in "${FILES_TO_REMOVE[@]}"; do
+  if [ -f "$SRC_DIR/$file" ]; then
+    rm -f "$SRC_DIR/$file"
+    echo "  ✅ Removed src/$file"
+  else
+    echo "  ⏭️  src/$file not found, skipping"
+  fi
+done
+
+# --- Clean index.html ---
+if [ -f "$SRC_DIR/index.html" ]; then
+  cat > "$SRC_DIR/index.html" << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="react.svg" />
+  <title>Rspack Templet</title>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>
+EOF
+  echo "  ✅ Reset src/index.html to minimal template"
+fi
+
+# --- Clean index.tsx ---
+if [ -f "$SRC_DIR/index.tsx" ]; then
+  # Remove the console import line (compatible with macOS and Linux sed)
+  sed -i.bak '/import .*@\/console/d' "$SRC_DIR/index.tsx"
+  rm -f "$SRC_DIR/index.tsx.bak"
+  echo "  ✅ Removed console import from src/index.tsx"
+fi
+ 
+# --- index.css ---
+cat > "$SRC_DIR/index.scss" << 'EOF'
+
+EOF
+echo "  ✅ Reset src/index.css to minimal template"
+
+# --- Reset App.tsx to minimal template ---
+cat > "$SRC_DIR/App.tsx" << 'EOF'
+import style from '@/App.module.scss';
+
+const App = () => {
+  return (
+    <div className={style.container}>
+      <h1>Rspack Clean Template</h1>
+    </div>
+  );
+};
+
+export default App;
+EOF
+echo "  ✅ Reset src/App.tsx to minimal template"
+
+# --- Reset App.module.css ---
+cat > "$SRC_DIR/App.module.scss" << 'EOF'
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  font-size: 24px;
+  text-align: center;
+}
+EOF
+echo "  ✅ Reset src/App.module.css to minimal template"
+
+echo ""
+echo "✨ Project cleaned successfully!"
+echo ""
+echo "You can now run:"
+echo "  npm start    - to start the dev server"
+echo "  npm run build - to create a production build"

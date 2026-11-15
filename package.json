@@ -1,0 +1,70 @@
+{
+  "name": "rspack-templet",
+  "version": "1.0.0",
+  "description": "rspack-templet is a modern web application template built with React, TypeScript, and Rspack. It provides a solid foundation for building fast, scalable, and maintainable web applications.",
+  "main": "index.js",
+  "scripts": {
+    "start": "rspack serve --config rspack.config.dev.ts --config-loader jiti",
+    "build": "rspack build --config rspack.config.prod.ts --config-loader jiti",
+    "preview": "serve -s dist",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "clean": "bash scripts/clean.sh",
+    "prepare": "husky"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "core-js": "^3.49.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "regenerator-runtime": "^0.14.1"
+  },
+  "devDependencies": {
+    "@rsdoctor/rspack-plugin": "^1.6.5",
+    "@rspack/cli": "^2.3.2",
+    "@rspack/core": "^2.3.2",
+    "@rspack/dev-server": "^2.2.2",
+    "@rspack/plugin-react-refresh": "^2.0.3",
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@svgr/plugin-svgo": "^8.1.0",
+    "@swc/helpers": "^0.5.24",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.4",
+    "@typescript-eslint/parser": "^8.59.4",
+    "code-inspector-plugin": "^2.0.9",
+    "dotenv": "^18.0.5",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "husky": "^9.1.7",
+    "javascript-obfuscator": "^5.8.1",
+    "jiti": "^2.7.0",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3",
+    "react-refresh": "^0.19.0",
+    "rspack-merge": "^1.0.1",
+    "sass-embedded": "^1.108.2",
+    "serve": "^14.2.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.4",
+    "typescript-plugin-css-modules": "^5.2.0"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{css,scss}": [
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}
